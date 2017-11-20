@@ -458,9 +458,7 @@ namespace CalcsGenerator.Windows
                     i++;
                 }
 
-
-                Interaction.MsgBox(tab.PartsCharge);
-
+                
                 //Добавить расходные материалы
                 if (tab.PartsCharge != 0)
                 {
@@ -475,7 +473,7 @@ namespace CalcsGenerator.Windows
                 }
 
                 //Добавить накладные расходы
-                if (tab.PartsCharge != 0)
+                if (tab.WorkCharge != 0)
                 {
                     TabRecord tmp = new TabRecord();
                     tmp.Number = i;
