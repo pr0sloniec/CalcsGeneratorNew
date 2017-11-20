@@ -33,13 +33,15 @@ namespace CalcsGenerator
         }
 
         //Если сохранение на каждом шаге будут медленными, их можно будет выключить, если вызывать через метод
-        public static void TrySaveChanges()
+        public static bool TrySaveChanges()
         {
             lock (lockobj)
             {
                 try
                 {
                     projectsContext.SaveChanges();
+                    Console.WriteLine("Сохранение в {0}", DateTime.Now);
+                    return true;
                 }
                 catch (DbEntityValidationException e)
                 {
@@ -51,6 +53,7 @@ namespace CalcsGenerator
                             Console.WriteLine("|----Свойство: \"{0}\", Предупреждение: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
                         }
                     }
+                    return false;
                 }
                 
             }
@@ -103,11 +106,7 @@ namespace CalcsGenerator
                         PC.Database.ExecuteSqlCommand("drop table dbo.Tabs");
                         PC.Database.ExecuteSqlCommand("drop table dbo.Projects");
                         PC.Database.ExecuteSqlCommand("drop table dbo.__MigrationHistory");
-                        App.Current.Dispatcher.Invoke(() =>
-                        {
-                            Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
-                            Process.GetCurrentProcess().Kill();
-                        });
+                        AppConsole.Restart();
                     }
                     else
                     {

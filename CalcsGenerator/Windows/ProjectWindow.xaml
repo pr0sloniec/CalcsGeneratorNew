@@ -29,7 +29,13 @@
 
         <StackPanel Grid.Column="0" x:Name="SlideMenu" Background="WhiteSmoke" Width="{StaticResource SlideMenuClosedWidth}">
             <control:SlideMenuItemControl IconHeightWidth="25" Text="Меню" IconSource="pack://application:,,,/CalcsGenerator;component/Images/menu.png" ItemClick="MenuItemClick"/>
+            <control:SlideMenuItemControl IconHeightWidth="20" Text="Сохранить" IconSource="pack://application:,,,/CalcsGenerator;component/Images/save.png" ItemClick="SaveChanges"/>
+            <Separator/>
+            <control:SlideMenuItemControl IconHeightWidth="20" Text="Экспорт в Excel" IconSource="pack://application:,,,/CalcsGenerator;component/Images/excel.png" ItemClick="ExcelExport"/>
+            <control:SlideMenuItemControl IconHeightWidth="20" Text="Экспорт в Pdf" IconSource="pack://application:,,,/CalcsGenerator;component/Images/pdf.png" ItemClick="PdfExport"/>
+            <Separator/>
             <control:SlideMenuItemControl IconHeightWidth="20" Text="Экспорт в JSON" IconSource="pack://application:,,,/CalcsGenerator;component/Images/json.png" ItemClick="JsonExport"/>
+            <control:SlideMenuItemControl IconHeightWidth="20" Text="Синхронизировать бд" IconSource="pack://application:,,,/CalcsGenerator;component/Images/refresh.png" ItemClick="RefreshDb"/>
         </StackPanel>
 
         <Frame x:Name="ProjectFrame" Grid.Column="1"/>

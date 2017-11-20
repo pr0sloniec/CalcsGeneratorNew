@@ -147,6 +147,9 @@ namespace CalcsGenerator.Windows
                 }
             }
             Project tmp = App.PC.Projects.Where(p => p.Id == item.Id).First();
+
+            Project.SelfDestruct(tmp);
+
             App.PC.Projects.Remove(tmp);
             App.TrySaveChanges();
             UpdateProjectList();

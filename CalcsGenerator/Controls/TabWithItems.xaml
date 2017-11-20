@@ -4,12 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CalcsGenerator.Controls"
+             xmlns:root="clr-namespace:CalcsGenerator"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d" 
              x:Name="RootElem"
              Background="Transparent"
              d:DesignHeight="300">
-    <Border BorderBrush="SkyBlue" BorderThickness="2" CornerRadius="30" Background="White">
+    <UserControl.Resources>
+        <ObjectDataProvider ObjectType="{x:Type root:AppConsole}" MethodName="GetPriceList" x:Key="PriceList"/>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="SkyBlue" x:Name="RootBorder" BorderThickness="2" CornerRadius="30" Background="White">
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -33,7 +38,13 @@
             </Grid>
             <DataGrid x:Name="RecordGrid" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTemplateColumn Header="Наименование">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Source={StaticResource PriceList}}" DisplayMemberPath="Name" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="TableComboBoxCheck" TextBoxBase.TextChanged="TableComboBoxCheck" StaysOpenOnEdit="False" IsEditable="True" IsReadOnly="False"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Ед. изм" Binding="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
                     <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=Count, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
                     <DataGridTextColumn Header="Реальная стоимость" Binding="{Binding Path=Real, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
@@ -67,9 +78,13 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="pack://application:,,,/CalcsGenerator;component/Images/add.png" Margin="15" MouseDown="AddItemClick"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <Image Source="pack://application:,,,/CalcsGenerator;component/Images/add.png" Margin="15" MouseDown="AddItemClick"/>
+                    <Image Source="pack://application:,,,/CalcsGenerator;component/Images/save.png" Margin="15" MouseDown="SaveData"/>
+                </StackPanel>
+                
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right">
-                    <local:ChargeInputControl PlaceHolder="Стоимость работ" Margin="0,1,0,1" x:Name="WorkCharge"/>
+                    <local:ChargeInputControl PlaceHolder="Накладные расходы" Margin="0,1,0,1" x:Name="WorkCharge"/>
                     <local:ChargeInputControl PlaceHolder="Расходные материалы" x:Name="PartsCharge"/>
                     <TextBlock x:Name="CountTextBox" Margin="0,1,0,1"/>
                 </StackPanel>

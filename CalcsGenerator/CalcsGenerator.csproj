@@ -57,6 +57,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
@@ -91,11 +92,15 @@
     <Compile Include="Controls\TabWithItems.xaml.cs">
       <DependentUpon>TabWithItems.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\PriceItem.cs" />
     <Compile Include="Windows\AsyncExecute.xaml.cs">
       <DependentUpon>AsyncExecute.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ChooseProject.xaml.cs">
       <DependentUpon>ChooseProject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DatabaseSyncWindow.xaml.cs">
+      <DependentUpon>DatabaseSyncWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ExporterWindow.xaml.cs">
       <DependentUpon>ExporterWindow.xaml</DependentUpon>
@@ -132,6 +137,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\ChooseProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DatabaseSyncWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,9 +219,33 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\document.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

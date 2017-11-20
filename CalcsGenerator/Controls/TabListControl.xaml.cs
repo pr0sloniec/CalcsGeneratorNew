@@ -28,6 +28,14 @@ namespace CalcsGenerator.Controls
         Project currentproj;
         ObservableCollection<TabWithItems> Tabs = new ObservableCollection<TabWithItems>();
 
+        public void SaveChanges()
+        {
+            foreach(var item in Tabs)
+            {
+                item.SaveChanges();
+            }
+        }
+
         void RemoveTab(int index)
         {
             Interaction.MsgBox(index);

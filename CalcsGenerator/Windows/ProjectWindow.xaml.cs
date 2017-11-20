@@ -94,9 +94,42 @@ namespace CalcsGenerator.Windows
             }
         }
 
+        private void ExcelExport()
+        {
+            App.PC.Configuration.LazyLoadingEnabled = false;
+            App.PC.Configuration.ProxyCreationEnabled = false;
+            Project tmp = App.PC.Projects.Where(p => p.Id == ProjectId).First();
+            ExporterWindow ew = new ExporterWindow(tmp,ExportType.Excel);
+            ew.ShowDialog();
+            App.PC.Configuration.LazyLoadingEnabled = true;
+            App.PC.Configuration.ProxyCreationEnabled = true;
+        }
+
+        private void PdfExport()
+        {
+            App.PC.Configuration.LazyLoadingEnabled = false;
+            App.PC.Configuration.ProxyCreationEnabled = false;
+            Project tmp = App.PC.Projects.Where(p => p.Id == ProjectId).First();
+            ExporterWindow ew = new ExporterWindow(tmp, ExportType.Pdf);
+            ew.ShowDialog();
+            App.PC.Configuration.LazyLoadingEnabled = true;
+            App.PC.Configuration.ProxyCreationEnabled = true;
+        }
+
+        private void RefreshDb()
+        {
+            DatabaseSyncWindow dbsw = new DatabaseSyncWindow();
+            dbsw.ShowDialog();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CloseProject?.Invoke(ProjectId);
+        }
+
+        private void SaveChanges()
+        {
+            (ProjectFrame.Content as TabListControl).SaveChanges();
         }
     }
 }

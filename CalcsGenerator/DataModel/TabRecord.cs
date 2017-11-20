@@ -36,7 +36,6 @@ namespace CalcsGenerator.DataModel
 
         
         string name=string.Empty;
-        [MaxLength(50)]
         [Required]
         [DataMember]
         public string Name { get { return name; }
@@ -50,7 +49,6 @@ namespace CalcsGenerator.DataModel
 
         
         string type=string.Empty;
-        [MaxLength(50)]
         [Required]
         [DataMember]
         public string Type { get { return type; }

@@ -44,5 +44,21 @@ namespace CalcsGenerator.DataModel
         [DataMember]
         public virtual List<Tab> Tabs { get; set; }
 
+        //Самоуничтожение для удаления из бд
+        public static void SelfDestruct(Project tmp)
+        {
+            foreach (var tab in tmp.Tabs)
+            {
+                while (tab.TabRecords.Count > 0)
+                {
+                    tab.TabRecords.RemoveAt(tab.TabRecords.Count - 1);
+                }
+            }
+
+            while (tmp.Tabs.Count > 0)
+            {
+                tmp.Tabs.RemoveAt(tmp.Tabs.Count - 1);
+            }
+        }
     }
 }

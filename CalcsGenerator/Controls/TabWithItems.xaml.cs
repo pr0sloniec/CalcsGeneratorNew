@@ -95,8 +95,6 @@ namespace CalcsGenerator.Controls
 
             TabRecords.CollectionChanged += UpdateTabRecords;
 
-            UpdateCount();
-
             RecordGrid.ItemsSource = TabRecords;
 
             if (currenttab.WorkCharge != 0)
@@ -104,11 +102,20 @@ namespace CalcsGenerator.Controls
                 WorkCharge.LoadData(currenttab.WorkCharge);
             }
 
-
             if (currenttab.PartsCharge != 0)
             {
                 PartsCharge.LoadData(currenttab.PartsCharge);
             }
+
+            workcharge = currenttab.WorkCharge;
+            partscharge = currenttab.PartsCharge;
+
+            UpdateCount();
+        }
+
+        public void SaveChanges()
+        {
+            if (App.TrySaveChanges()) RootBorder.BorderBrush = Brushes.SkyBlue;
         }
 
         //Этот методобновляет прочие наценки
@@ -119,7 +126,7 @@ namespace CalcsGenerator.Controls
 
             currenttab.WorkCharge = workcharge;
             currenttab.PartsCharge = partscharge;
-            App.TrySaveChanges();
+            if (App.TrySaveChanges()) SaveChanges();
 
             UpdateCount();
         }
@@ -142,13 +149,15 @@ namespace CalcsGenerator.Controls
                 {
                     currenttab.TabRecords.Add(newItem);
                     newItem.PropertyChanged += UpdateTabRecord;
+                    
                 }
             }
-            
-            App.TrySaveChanges();
+
+            if (App.TrySaveChanges()) SaveChanges();
+
         }
 
-        //Этот метод должен внечти все изменения элементов в базу данных
+        //Этот метод должен внеcти все изменения элементов в базу данных
         private void UpdateTabRecord(object sender, PropertyChangedEventArgs e)
         {
             var current = sender as TabRecord;
@@ -161,7 +170,8 @@ namespace CalcsGenerator.Controls
             }
 
             result.ReplaceValues(current);
-            App.TrySaveChanges();
+            RootBorder.BorderBrush = Brushes.Red;
+            //App.TrySaveChanges();
 
             UpdateCount();
         }
@@ -175,8 +185,8 @@ namespace CalcsGenerator.Controls
             }
 
             //Наценки
-            Count += (int)Math.Floor((double)Count / 100 * workcharge);
-            Count += (int)Math.Floor((double)Count / 100 * partscharge);
+            Count += (int)Math.Floor((double)Count / 100 * currenttab.WorkCharge);
+            Count += (int)Math.Floor((double)Count / 100 * currenttab.PartsCharge);
         }
 
         private void ChangeTabTitle(object sender, MouseButtonEventArgs e)
@@ -189,7 +199,7 @@ namespace CalcsGenerator.Controls
             }
             TabTitle.Content = newname;
             currenttab.Name = newname;
-            App.TrySaveChanges();
+            if (App.TrySaveChanges()) SaveChanges();
         }
 
         private void AddItemClick(object sender, MouseButtonEventArgs e)
@@ -209,6 +219,29 @@ namespace CalcsGenerator.Controls
         private void RemoveTabClick(object sender, MouseButtonEventArgs e)
         {
             RemoveTab(TabId);
+        }
+
+        private void TableComboBoxCheck(object sender, RoutedEventArgs e)
+        {
+            TabRecord obj = ((FrameworkElement)sender).DataContext as TabRecord;
+            ComboBox box = (FrameworkElement)sender as ComboBox;
+
+            if (obj == null) return;
+
+            var overlap = App.PC.Items.Where(i => i.Name == box.Text);
+
+            if (overlap.Count()==1)
+            {
+                obj.Count = 1;
+                obj.Real = Int32.Parse((overlap.First().Value == null) ? "0" : overlap.First().Value);
+                obj.Type = (overlap.First().Type == null) ? " " : overlap.First().Type;
+            }
+           
+        }
+
+        private void SaveData(object sender, MouseButtonEventArgs e)
+        {
+            SaveChanges();
         }
     }
 }

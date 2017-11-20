@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using CalcsGenerator.DataModel;
 
 namespace CalcsGenerator
 {
@@ -22,6 +24,25 @@ namespace CalcsGenerator
                     }
                 }
             }
+        }
+
+        public static void Restart()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                Process.GetCurrentProcess().Kill();
+            });
+        }
+
+        public static List<PriceItem> GetPriceList()
+        {
+            List<PriceItem> tmp = new List<PriceItem>();
+            foreach(var item in App.PC.Items)
+            {
+                tmp.Add(item);
+            }
+            return tmp;
         }
     }
 }

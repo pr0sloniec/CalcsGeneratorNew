@@ -13,6 +13,7 @@
         }
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<PriceItem> Items { get; set; }
     }
 
     //public class MyEntity

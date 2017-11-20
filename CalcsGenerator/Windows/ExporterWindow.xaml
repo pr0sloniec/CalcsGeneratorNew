@@ -27,7 +27,7 @@
             <Label Content="Формат экспорта"/>
             <RadioButton GroupName="Exporttype" x:Name="PdfExportCheck" Content="Pdf"/>
             <RadioButton GroupName="Exporttype" x:Name="ExcelExportCheck" Content="Excel" />
-            <Button Content="Экспорт" Margin="0,3,0,0"/>
+            <Button Content="Экспорт" Margin="0,3,0,0" Click="StartExport"/>
         </StackPanel>
             
     </Grid>

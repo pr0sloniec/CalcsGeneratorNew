@@ -1,0 +1,39 @@
+﻿<Window x:Class="CalcsGenerator.Windows.DatabaseSyncWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalcsGenerator.Windows"
+        mc:Ignorable="d"
+        Title="DatabaseSyncWindow" Height="259.5" Width="354">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Height="50">
+            <Image Source="pack://application:,,,/CalcsGenerator;component/Images/refresh.png" Margin="10"/>
+            <Label Content="Мастер синхронизации БД" FontSize="16" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5">
+                <Label Content="Выберите метод"/>
+                <RadioButton GroupName="Exporttype" x:Name="RewriteCheck" Content="Запись снова" IsChecked="True"/>
+                <RadioButton GroupName="Exporttype" x:Name="UpdateCheck" Content="Совмещение" />
+                <Button Content="Начать" Margin="0,3,0,0" Click="StartSync"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>
