@@ -31,7 +31,6 @@ namespace CalcsGenerator.DataModel
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(10)]
         [Required]
         [DataMember]
         public string Name { get; set; }
