@@ -1,0 +1,34 @@
+﻿<Window x:Class="CalcsGenerator.Windows.ExporterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalcsGenerator.Windows"
+        mc:Ignorable="d"
+        Title="ExporterWindow" Height="362" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Height="50">
+            <Image Source="pack://application:,,,/CalcsGenerator;component/Images/document.png" Margin="2"/>
+            <Label Content="Мастер экспорта документа" FontSize="16" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <DataGrid x:Name="InfoGrid" Grid.Row="1" CanUserAddRows="True" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="125" />
+                <DataGridTextColumn Header="Значение" Binding="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Margin="5">
+            <TextBlock Text="*начните вводить текст в пустую строку для добавления записи. выделите строку и нажмите del для удаления записи" TextWrapping="Wrap" FontSize="8"/>
+            <Label Content="Формат экспорта"/>
+            <RadioButton GroupName="Exporttype" x:Name="PdfExportCheck" Content="Pdf"/>
+            <RadioButton GroupName="Exporttype" x:Name="ExcelExportCheck" Content="Excel" />
+            <Button Content="Экспорт" Margin="0,3,0,0"/>
+        </StackPanel>
+            
+    </Grid>
+</Window>

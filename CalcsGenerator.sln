@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcsGenerator", "CalcsGenerator\CalcsGenerator.csproj", "{ED9BE7B4-168B-40A0-95D9-ADC9E1A62304}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED9BE7B4-168B-40A0-95D9-ADC9E1A62304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9BE7B4-168B-40A0-95D9-ADC9E1A62304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9BE7B4-168B-40A0-95D9-ADC9E1A62304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9BE7B4-168B-40A0-95D9-ADC9E1A62304}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B7DC12F-407B-441B-AC65-0ED21834D786}
+	EndGlobalSection
+EndGlobal

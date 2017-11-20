@@ -1,0 +1,9 @@
+﻿<Application x:Class="CalcsGenerator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CalcsGenerator"
+             Startup="Application_Startup">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

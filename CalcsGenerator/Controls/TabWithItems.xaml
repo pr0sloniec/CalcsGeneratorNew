@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="CalcsGenerator.Controls.TabWithItems"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CalcsGenerator.Controls"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             mc:Ignorable="d" 
+             x:Name="RootElem"
+             Background="Transparent"
+             d:DesignHeight="300">
+    <Border BorderBrush="SkyBlue" BorderThickness="2" CornerRadius="30" Background="White">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" MouseDown="ChangeTabTitle">
+                    <Label Content="Название" x:Name="TabTitle"/>
+                    <TextBlock Text="(изменить)" VerticalAlignment="Center" FontSize="8"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Image  Source="pack://application:,,,/CalcsGenerator;component/Images/remove.png" Margin="5" MouseDown="RemoveTabClick" />
+                </StackPanel>
+                
+            </Grid>
+            <DataGrid x:Name="RecordGrid" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTextColumn Header="Ед. изм" Binding="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTextColumn Header="Кол-во" Binding="{Binding Path=Count, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTextColumn Header="Реальная стоимость" Binding="{Binding Path=Real, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTextColumn Header="Наценка (%)" Binding="{Binding Path=Charge, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTemplateColumn Header="УСН (6%)">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Usn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="НДС (18%)">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Nds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Стоимость 1шт" Binding="{Binding Path=Cost, Mode=OneWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    <DataGridTextColumn Header="Клиентская стоимость" Binding="{Binding Path=Price, Mode=OneWay, UpdateSourceTrigger=LostFocus}" MinWidth="50" />
+                    
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+            <Grid Grid.Row="2" Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="pack://application:,,,/CalcsGenerator;component/Images/add.png" Margin="15" MouseDown="AddItemClick"/>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                    <local:ChargeInputControl PlaceHolder="Стоимость работ" Margin="0,1,0,1" x:Name="WorkCharge"/>
+                    <local:ChargeInputControl PlaceHolder="Расходные материалы" x:Name="PartsCharge"/>
+                    <TextBlock x:Name="CountTextBox" Margin="0,1,0,1"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
