@@ -86,8 +86,54 @@ namespace CalcsGenerator
         }
 
         //Этот метод должен читать консоль и выполнять команды
-        private static void RunConsole()
+        private static void RunConsole(Action rungui)
         {
+            Console.WriteLine("CalcsGenerator");
+            string thisname = Process.GetCurrentProcess().ProcessName;
+            Console.WriteLine("Название текущего процесса: {0}",thisname);
+
+            if (Process.GetProcessesByName(thisname).Count() > 1)
+            {
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+
+                Console.WriteLine("Найден другой процесс с названием {0}", thisname);
+                Console.WriteLine("Не допускается запуск более одной копии процесса, обрабатываюшего базу данных");
+                Console.WriteLine("Нажмите \"S\" чтобы автоматически закрыть процесс и запуститься");
+                Console.WriteLine("Нажмите любую другую кнопку для выхода");
+
+                ConsoleKeyInfo key = Console.ReadKey();
+                var procarr=Process.GetProcessesByName(thisname);
+                if (key.Key==ConsoleKey.S)
+                {
+                    int thisid= Process.GetCurrentProcess().Id;
+                    foreach(var proc in procarr)
+                    {
+                        if (proc.Id != thisid) proc.Kill();
+                    }
+                }
+                else
+                {
+                    App.Current.Shutdown();
+                    return;
+                }
+            }
+
+            Task.Run(()=>App.Current.Dispatcher.Invoke(()=>
+            {
+                try
+                {
+                    rungui();
+                }
+                catch(Exception ex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine("Произошла ошибка исполнения!");
+                    Console.WriteLine(ex.Message);
+                }
+            }));
+
             Task.Run(() =>
             {
                 while (true)
@@ -102,8 +148,9 @@ namespace CalcsGenerator
                     }
                     else if (command == "dropdb")
                     {
+                        PC.Database.ExecuteSqlCommand("drop table dbo.PriceItems");
                         PC.Database.ExecuteSqlCommand("drop table dbo.TabRecords");
-                        PC.Database.ExecuteSqlCommand("drop table dbo.Tabs");
+                        PC.Database.ExecuteSqlCommand("drop table dbo.Tabs"); 
                         PC.Database.ExecuteSqlCommand("drop table dbo.Projects");
                         PC.Database.ExecuteSqlCommand("drop table dbo.__MigrationHistory");
                         AppConsole.Restart();
@@ -131,10 +178,14 @@ namespace CalcsGenerator
 
             //AddItems();
 
-            RunConsole();
 
-            ChooseProject cp = new ChooseProject();
-            cp.ShowDialog();
+            RunConsole(() =>
+            {
+                ChooseProject cp = new ChooseProject();
+                cp.ShowDialog();
+            });
+
+            
         }
     }
 }

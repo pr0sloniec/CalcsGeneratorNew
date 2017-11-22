@@ -33,6 +33,16 @@ namespace CalcsGenerator.Controls
 
         public Action<int> RemoveTab { get; set; }
 
+        public Func<bool> SaveChanges { get; set; }
+
+        public bool IsChangesSaved {
+            set
+            {
+                if (value) RootBorder.BorderBrush = Brushes.SkyBlue;
+                else RootBorder.BorderBrush = Brushes.Red;
+            }
+        }
+
         int count;
         public int Count { get { return count; } private set { count = value; CountTextBox.Text = "Итого: " + count.ToString(); } }  //Счетчик итого
 
@@ -113,11 +123,6 @@ namespace CalcsGenerator.Controls
             UpdateCount();
         }
 
-        public void SaveChanges()
-        {
-            if (App.TrySaveChanges()) RootBorder.BorderBrush = Brushes.SkyBlue;
-        }
-
         //Этот методобновляет прочие наценки
         private void UpdateAnotherCharge()
         {
@@ -126,7 +131,7 @@ namespace CalcsGenerator.Controls
 
             currenttab.WorkCharge = workcharge;
             currenttab.PartsCharge = partscharge;
-            if (App.TrySaveChanges()) SaveChanges();
+            SaveChanges?.Invoke();
 
             UpdateCount();
         }
@@ -153,7 +158,7 @@ namespace CalcsGenerator.Controls
                 }
             }
 
-            if (App.TrySaveChanges()) SaveChanges();
+            SaveChanges?.Invoke();
 
         }
 
@@ -199,7 +204,7 @@ namespace CalcsGenerator.Controls
             }
             TabTitle.Content = newname;
             currenttab.Name = newname;
-            if (App.TrySaveChanges()) SaveChanges();
+            SaveChanges?.Invoke();
         }
 
         private void AddItemClick(object sender, MouseButtonEventArgs e)
@@ -209,11 +214,22 @@ namespace CalcsGenerator.Controls
                 if (item.Id == 0)
                 {
                     RecordGrid.CurrentItem = RecordGrid.Items.GetItemAt(RecordGrid.Items.Count - 1);
-                    Interaction.MsgBox("Заполните до конца предыдущее поле!");
-                    return;
+
+                    bool? issaved = SaveChanges?.Invoke();
+
+                    if (issaved==true)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Interaction.MsgBox("Заполните до конца предыдущее поле!");
+                        return;
+                    }   
                 }
             }
             TabRecords.Add(new TabRecord());
+            IsChangesSaved = false;
         }
 
         private void RemoveTabClick(object sender, MouseButtonEventArgs e)
@@ -239,9 +255,26 @@ namespace CalcsGenerator.Controls
            
         }
 
-        private void SaveData(object sender, MouseButtonEventArgs e)
+        private void SetCharge(object sender, RoutedEventArgs e)
         {
-            SaveChanges();
+            string input = Interaction.InputBox("Введите", "Введите наценку");
+            int charge = 0;
+
+            if (string.IsNullOrWhiteSpace(input)) return;
+
+            if(Int32.TryParse(input,out charge))
+            {
+                foreach(var item in TabRecords)
+                {
+                    item.Charge = charge;
+                    IsChangesSaved = true;
+                    SaveChanges.Invoke();
+                }
+            }
+            else
+            {
+                Interaction.MsgBox("Не удается преобразовать введенный текст в число. Наценка - число без запяток, без пробелов и прочего оформления. Только число!");
+            }
         }
     }
 }

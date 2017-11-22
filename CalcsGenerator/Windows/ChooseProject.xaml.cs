@@ -195,5 +195,18 @@ namespace CalcsGenerator.Windows
                 Interaction.MsgBox("Не удается провести импорт: " + ex.Message);
             }
         }
+
+        private void CloseWarning(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Вы уверены, что хотите закрыть? Все дополнительные окна закроются без сохранения последних изменений", "Предупреждение", MessageBoxButton.YesNo);
+            if (result != MessageBoxResult.Yes)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
+        }
     }
 }

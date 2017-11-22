@@ -37,6 +37,12 @@
                 
             </Grid>
             <DataGrid x:Name="RecordGrid" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Задать всем одну наценку" Click="SetCharge"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Наименование">
                         <DataGridTemplateColumn.CellTemplate>
@@ -80,7 +86,6 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
                     <Image Source="pack://application:,,,/CalcsGenerator;component/Images/add.png" Margin="15" MouseDown="AddItemClick"/>
-                    <Image Source="pack://application:,,,/CalcsGenerator;component/Images/save.png" Margin="15" MouseDown="SaveData"/>
                 </StackPanel>
                 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Right">

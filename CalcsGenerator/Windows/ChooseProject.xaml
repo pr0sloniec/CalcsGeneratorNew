@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalcsGenerator.Windows"
         mc:Ignorable="d"
+        Closing="CloseWarning"
         Title="ChooseProject" Height="322" Width="500">
 
     <Window.Resources>

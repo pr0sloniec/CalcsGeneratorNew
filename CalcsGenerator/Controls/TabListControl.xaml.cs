@@ -28,17 +28,24 @@ namespace CalcsGenerator.Controls
         Project currentproj;
         ObservableCollection<TabWithItems> Tabs = new ObservableCollection<TabWithItems>();
 
-        public void SaveChanges()
+        public bool SaveChanges()
         {
-            foreach(var item in Tabs)
+            if (App.TrySaveChanges())
             {
-                item.SaveChanges();
+                foreach (var item in Tabs)
+                {
+                    item.IsChangesSaved = true;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         void RemoveTab(int index)
         {
-            Interaction.MsgBox(index);
             for(int i = Tabs.Count - 1; i >= 0; i--)
             {
                 if (Tabs[i].TabId == index)
@@ -69,6 +76,7 @@ namespace CalcsGenerator.Controls
             {
                 var w = new TabWithItems(tab.Id, ProjectId);
                 w.RemoveTab = RemoveTab;
+                w.SaveChanges = SaveChanges;
                 Tabs.Add(w);
             }
         }
