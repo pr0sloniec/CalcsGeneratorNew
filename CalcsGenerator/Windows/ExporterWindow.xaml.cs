@@ -457,32 +457,31 @@ namespace CalcsGenerator.Windows
                     sum += item.Price;
                     i++;
                 }
-
                 
                 //Добавить расходные материалы
                 if (tab.PartsCharge != 0)
                 {
-                    TabRecord tmp = new TabRecord();
-                    tmp.Number = i;
-                    tmp.Name = "Расходные материалы";
-                    tmp.Type = "%";
-                    tmp.Count = tab.PartsCharge;
-                    tmp.Real = (int)sum/100;
+                    TabRecord parts = new TabRecord();
+                    parts.Number = i;
+                    parts.Name = "Расходные материалы";
+                    parts.Type = "%";
+                    parts.Count = tab.PartsCharge;
+                    parts.Real = (int)sum/100;
 
-                    tab.TabRecords.Add(tmp);
+                    tab.TabRecords.Add(parts);
                 }
 
                 //Добавить накладные расходы
                 if (tab.WorkCharge != 0)
                 {
-                    TabRecord tmp = new TabRecord();
-                    tmp.Number = i;
-                    tmp.Name = "Накладные расходы";
-                    tmp.Type = "%";
-                    tmp.Count = tab.WorkCharge;
-                    tmp.Real = (int)sum / 100;
+                    TabRecord works = new TabRecord();
+                    works.Number = i;
+                    works.Name = "Накладные расходы";
+                    works.Type = "%";
+                    works.Count = tab.WorkCharge;
+                    works.Real = (int)sum / 100;
 
-                    tab.TabRecords.Add(tmp);
+                    tab.TabRecords.Add(works);
                 }
             }
 
@@ -524,6 +523,24 @@ namespace CalcsGenerator.Windows
             });
             ae.ShowDialog();
             Close();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            foreach (var tab in CurrentProject.Tabs)
+            {
+                for(int i=tab.TabRecords.Count-1;i>0;i--)
+                {
+                    if (tab.TabRecords.ElementAt(i).Name == "Накладные расходы")
+                    {
+                        tab.TabRecords.RemoveAt(i);
+                    }
+                    else if (tab.TabRecords.ElementAt(i).Name == "Расходные материалы")
+                    {
+                        tab.TabRecords.RemoveAt(i);
+                    }
+                }
+            }
         }
     }
 }

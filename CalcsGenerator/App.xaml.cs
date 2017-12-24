@@ -146,14 +146,31 @@ namespace CalcsGenerator
                     {
                         AppConsole.ShowTree();
                     }
+                    else if (command == "cleardb")
+                    {
+                        Console.WriteLine("Очистка удаленных строк");
+                        PC.Database.ExecuteSqlCommand("DELETE FROM dbo.TabRecords WHERE Tab_Id IS NULL");
+                        Console.WriteLine("Очистка строк безхозных таблиц");
+                        PC.Database.ExecuteSqlCommand("DELETE FROM dbo.TabRecords WHERE Tab_Id IN (SELECT Id FROM dbo.Tabs WHERE Project_Id IS NULL)");
+                        Console.WriteLine("Очистка безхозных таблиц");
+                        PC.Database.ExecuteSqlCommand("DELETE FROM dbo.Tabs WHERE Project_Id IS NULL");
+                        Console.WriteLine("База данных очищена!");
+                    }
                     else if (command == "dropdb")
                     {
-                        PC.Database.ExecuteSqlCommand("drop table dbo.PriceItems");
-                        PC.Database.ExecuteSqlCommand("drop table dbo.TabRecords");
-                        PC.Database.ExecuteSqlCommand("drop table dbo.Tabs"); 
-                        PC.Database.ExecuteSqlCommand("drop table dbo.Projects");
-                        PC.Database.ExecuteSqlCommand("drop table dbo.__MigrationHistory");
-                        AppConsole.Restart();
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.Beep();
+                        Console.WriteLine("ВЫ УВЕРЕНЫ, ЧТО ХОТИТЕ УДАЛИТЬ ВСЕ ПРОЕКТЫ?");
+                        Console.WriteLine("Нажмите y для продолжения...");
+                        if (Console.ReadKey().Key == ConsoleKey.Y)
+                        {
+                            PC.Database.ExecuteSqlCommand("drop table dbo.PriceItems");
+                            PC.Database.ExecuteSqlCommand("drop table dbo.TabRecords");
+                            PC.Database.ExecuteSqlCommand("drop table dbo.Tabs");
+                            PC.Database.ExecuteSqlCommand("drop table dbo.Projects");
+                            PC.Database.ExecuteSqlCommand("drop table dbo.__MigrationHistory");
+                            AppConsole.Restart();
+                        }
                     }
                     else
                     {

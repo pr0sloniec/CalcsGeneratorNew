@@ -60,10 +60,12 @@ namespace CalcsGenerator.Controls
         public void LoadData(int value)
         {
             CheckBoxItem.IsChecked = true;
+            check = true;
             TextItem.Opacity = 1;
             TextBoxItem.Opacity = 1;
             CalcButton.Opacity = 1;
             TextBoxItem.Text = value.ToString();
+            Value = value;
         }
 
         public ChargeInputControl()

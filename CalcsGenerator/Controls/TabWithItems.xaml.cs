@@ -95,8 +95,6 @@ namespace CalcsGenerator.Controls
 
             TabTitle.Content = currenttab.Name;
 
-            
-
             foreach (var item in currenttab.TabRecords)
             {
                 TabRecords.Add(item);
@@ -120,7 +118,13 @@ namespace CalcsGenerator.Controls
             workcharge = currenttab.WorkCharge;
             partscharge = currenttab.PartsCharge;
 
-            UpdateCount();
+            UpdateCount();            
+
+            //По умолчанию изменения не сохранены, так как что-то рандомно начинает их перебивать в GUI
+            //Затем вызывается UpdateTabRecord, событие, вызываемое при изменении поля записи
+            //Что красит некоторые таблицы в красный
+            //Пустые таблицы остаются синими
+            IsChangesSaved = false;
         }
 
         //Этот методобновляет прочие наценки
@@ -159,7 +163,6 @@ namespace CalcsGenerator.Controls
             }
 
             SaveChanges?.Invoke();
-
         }
 
         //Этот метод должен внеcти все изменения элементов в базу данных
@@ -168,6 +171,7 @@ namespace CalcsGenerator.Controls
             var current = sender as TabRecord;
             var result = currenttab.TabRecords.SingleOrDefault(b => b.Id == current.Id);
 
+            //Id нет в бд, новичок
             if (result == null)
             {
                 currenttab.TabRecords.Add(current);
@@ -175,8 +179,7 @@ namespace CalcsGenerator.Controls
             }
 
             result.ReplaceValues(current);
-            RootBorder.BorderBrush = Brushes.Red;
-            //App.TrySaveChanges();
+            IsChangesSaved = false;
 
             UpdateCount();
         }

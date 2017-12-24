@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalcsGenerator.Windows"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="ExporterWindow" Height="362" Width="300">
     <Grid>
         <Grid.RowDefinitions>

@@ -79,6 +79,8 @@ namespace CalcsGenerator.Controls
                 w.SaveChanges = SaveChanges;
                 Tabs.Add(w);
             }
+
+
         }
 
         private void AddTab(object sender, MouseButtonEventArgs e)

@@ -36,7 +36,7 @@ namespace CalcsGenerator.DataModel
 
         
         string name=string.Empty;
-        [Required]
+
         [DataMember]
         public string Name { get { return name; }
             set
@@ -49,7 +49,7 @@ namespace CalcsGenerator.DataModel
 
         
         string type=string.Empty;
-        [Required]
+
         [DataMember]
         public string Type { get { return type; }
             set
