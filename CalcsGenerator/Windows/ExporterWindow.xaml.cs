@@ -469,6 +469,7 @@ namespace CalcsGenerator.Windows
                     parts.Real = (int)sum/100;
 
                     tab.TabRecords.Add(parts);
+                    i++;
                 }
 
                 //Добавить накладные расходы
@@ -482,6 +483,7 @@ namespace CalcsGenerator.Windows
                     works.Real = (int)sum / 100;
 
                     tab.TabRecords.Add(works);
+                    i++;
                 }
             }
 

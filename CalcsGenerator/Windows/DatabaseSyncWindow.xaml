@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalcsGenerator.Windows"
         mc:Ignorable="d"
-        Title="DatabaseSyncWindow" Height="259.5" Width="354">
+        Title="DatabaseSyncWindow" Height="267.305" Width="379.365">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,7 +30,8 @@
             <StackPanel Grid.Column="1" Grid.Row="1" Margin="5">
                 <Label Content="Выберите метод"/>
                 <RadioButton GroupName="Exporttype" x:Name="RewriteCheck" Content="Запись снова" IsChecked="True"/>
-                <RadioButton GroupName="Exporttype" x:Name="UpdateCheck" Content="Совмещение" />
+                <RadioButton GroupName="Exporttype" x:Name="ConcatCheck" Content="Дописать новые" />
+                <RadioButton GroupName="Exporttype" x:Name="UpdateCheck" Content="Поменять цены" />
                 <Button Content="Начать" Margin="0,3,0,0" Click="StartSync"/>
             </StackPanel>
         </Grid>

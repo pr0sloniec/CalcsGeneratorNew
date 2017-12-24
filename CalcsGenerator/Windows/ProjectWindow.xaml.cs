@@ -129,7 +129,9 @@ namespace CalcsGenerator.Windows
 
         private void SaveChanges()
         {
-            (ProjectFrame.Content as TabListControl).SaveChanges();
+            TabListControl tmp = ProjectFrame.Content as TabListControl;
+            AsyncExecute ae = new AsyncExecute(()=>tmp.SaveChanges());
+            ae.ShowDialog();
         }
     }
 }

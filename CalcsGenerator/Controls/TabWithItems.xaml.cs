@@ -38,8 +38,11 @@ namespace CalcsGenerator.Controls
         public bool IsChangesSaved {
             set
             {
-                if (value) RootBorder.BorderBrush = Brushes.SkyBlue;
-                else RootBorder.BorderBrush = Brushes.Red;
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    if (value) RootBorder.BorderBrush = Brushes.SkyBlue;
+                    else RootBorder.BorderBrush = Brushes.Red;
+                });
             }
         }
 

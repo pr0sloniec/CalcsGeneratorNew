@@ -145,11 +145,29 @@ namespace CalcsGenerator.Windows
                     Interaction.MsgBox("База данных успешно синхронизирована!");
                     AppConsole.Restart();
                 }
-                else
+                else if(ConcatCheck.IsChecked==true)
                 {
                     foreach(var item in Items)
                     {
                         App.PC.Items.Add(item);
+                    }
+                    App.TrySaveChanges();
+                    Console.WriteLine("База данных синхронизирована! Добавлено {0} элементов", Items.Count);
+                    Interaction.MsgBox("База данных успешно синхронизирована!");
+                    AppConsole.Restart();
+                }
+                else if (UpdateCheck.IsChecked == true)
+                {
+                    foreach (var item in Items)
+                    {
+                        foreach(var olditem in App.PC.Items)
+                        {
+                            if (item.Name == olditem.Name)
+                            {
+                                olditem.Type = item.Type;
+                                olditem.Value = item.Value;
+                            }
+                        }
                     }
                     App.TrySaveChanges();
                     Console.WriteLine("База данных синхронизирована! Добавлено {0} элементов", Items.Count);
