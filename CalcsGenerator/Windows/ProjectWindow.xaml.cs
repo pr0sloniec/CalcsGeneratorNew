@@ -127,10 +127,10 @@ namespace CalcsGenerator.Windows
             CloseProject?.Invoke(ProjectId);
         }
 
-        private void SaveChanges()
+        private async void SaveChanges()
         {
             TabListControl tmp = ProjectFrame.Content as TabListControl;
-            tmp.SaveChanges();
+            await tmp.SaveChanges();
         }
     }
 }

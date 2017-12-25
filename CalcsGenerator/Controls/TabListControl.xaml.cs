@@ -45,7 +45,7 @@ namespace CalcsGenerator.Controls
             }
         }
 
-        void RemoveTab(int index)
+        async void RemoveTab(int index)
         {
             for(int i = Tabs.Count - 1; i >= 0; i--)
             {
@@ -53,7 +53,7 @@ namespace CalcsGenerator.Controls
                 {
                     Tabs.Remove(Tabs[i]);
                     currentproj.Tabs.Remove(currentproj.Tabs.Where(t=>t.Id==index).First());
-                    App.TrySaveChanges();
+                    await App.TrySaveChanges();
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace CalcsGenerator.Controls
 
         }
 
-        private void AddTab(object sender, MouseButtonEventArgs e)
+        private async void AddTab(object sender, MouseButtonEventArgs e)
         {
             string name = Interaction.InputBox("Введите", "Введите название");
             if (string.IsNullOrWhiteSpace(name))
@@ -94,11 +94,11 @@ namespace CalcsGenerator.Controls
             Tab tmp = new Tab();
             tmp.Name = name;
             currentproj.Tabs.Add(tmp);
-            App.TrySaveChanges();
+            await App.TrySaveChanges();
             UpdateTabs();
         }
 
-        private void ChangeTabTitle(object sender, MouseButtonEventArgs e)
+        private async void ChangeTabTitle(object sender, MouseButtonEventArgs e)
         {
             string title = Interaction.InputBox("Введите", "Введите заголовок");
             if (string.IsNullOrWhiteSpace(title))
@@ -106,7 +106,7 @@ namespace CalcsGenerator.Controls
                 return;
             }
             currentproj.Name = title;
-            App.TrySaveChanges();
+            await App.TrySaveChanges();
             TitleLabel.Content = title;
         }
     }

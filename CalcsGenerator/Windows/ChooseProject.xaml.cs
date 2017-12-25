@@ -134,7 +134,7 @@ namespace CalcsGenerator.Windows
             UpdateProjectList();
         }
 
-        private void RemoveProject(object sender, MouseButtonEventArgs e)
+        private async void RemoveProject(object sender, MouseButtonEventArgs e)
         {
             var item = ProjectList.SelectedItem as ProjectInfo;
             if (item == null) return;
@@ -151,7 +151,7 @@ namespace CalcsGenerator.Windows
             Project.SelfDestruct(tmp);
 
             App.PC.Projects.Remove(tmp);
-            App.TrySaveChanges();
+            await App.TrySaveChanges();
             UpdateProjectList();
         }
 
@@ -175,7 +175,7 @@ namespace CalcsGenerator.Windows
 
                 if (!string.IsNullOrEmpty(openFileDialog1.FileName))
                 {
-                    AsyncExecute ae = new AsyncExecute(() =>
+                    AsyncExecute ae = new AsyncExecute(async() =>
                     {
                         using (FileStream stream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read))
                         using (StreamReader reader = new StreamReader(stream))
@@ -183,7 +183,7 @@ namespace CalcsGenerator.Windows
                             Project tmp = JsonConvert.DeserializeObject<Project>(reader.ReadToEnd());
                             Console.WriteLine("Десериализован проект {0}, добавляю в базу данных", tmp.Name);
                             App.PC.Projects.Add(tmp);
-                            App.TrySaveChanges();
+                            await App.TrySaveChanges();
                         }
                     });
                     ae.ShowDialog();

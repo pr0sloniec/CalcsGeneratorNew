@@ -102,7 +102,7 @@ namespace CalcsGenerator.Windows
             Marshal.ReleaseComObject(xlApp);
         }
 
-        private void StartSync(object sender, RoutedEventArgs e)
+        private async void StartSync(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.InitialDirectory = "c:\\";
@@ -132,14 +132,14 @@ namespace CalcsGenerator.Windows
                     {
                         App.PC.Items.Remove(entity);
                     }
-                        
-                    App.TrySaveChanges();
+                     
+                    await App.TrySaveChanges();
 
-                    foreach(var item in Items)
+                    foreach (var item in Items)
                     {
                         App.PC.Items.Add(item);
                     }
-                    App.TrySaveChanges();
+                    await App.TrySaveChanges();
 
                     Console.WriteLine("База данных синхронизирована! Добавлено {0} элементов", Items.Count);
                     Interaction.MsgBox("База данных успешно синхронизирована!");
@@ -151,7 +151,7 @@ namespace CalcsGenerator.Windows
                     {
                         App.PC.Items.Add(item);
                     }
-                    App.TrySaveChanges();
+                    await App.TrySaveChanges();
                     Console.WriteLine("База данных синхронизирована! Добавлено {0} элементов", Items.Count);
                     Interaction.MsgBox("База данных успешно синхронизирована!");
                     AppConsole.Restart();
@@ -169,7 +169,7 @@ namespace CalcsGenerator.Windows
                             }
                         }
                     }
-                    App.TrySaveChanges();
+                    await App.TrySaveChanges();
                     Console.WriteLine("База данных синхронизирована! Добавлено {0} элементов", Items.Count);
                     Interaction.MsgBox("База данных успешно синхронизирована!");
                     AppConsole.Restart();
