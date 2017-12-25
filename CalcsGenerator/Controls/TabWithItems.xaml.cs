@@ -243,6 +243,7 @@ namespace CalcsGenerator.Controls
             RemoveTab(TabId);
         }
 
+        //TODO метод, обновляющий цену позиции из бд по содержимому названия. Запускается при старте и сбивает цену
         private void TableComboBoxCheck(object sender, RoutedEventArgs e)
         {
             TabRecord obj = ((FrameworkElement)sender).DataContext as TabRecord;
@@ -254,7 +255,7 @@ namespace CalcsGenerator.Controls
 
             if (overlap.Count()==1)
             {
-                obj.Count = 1;
+                //obj.Count = 1; TODO
                 obj.Real = Int32.Parse((overlap.First().Value == null) ? "0" : overlap.First().Value);
                 obj.Type = (overlap.First().Type == null) ? " " : overlap.First().Type;
             }
