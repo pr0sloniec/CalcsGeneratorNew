@@ -113,7 +113,7 @@ namespace CalcsGenerator.Windows
             UpdateProjectList();
         }
 
-        private void CreateProject(object sender, RoutedEventArgs e)
+        private async void CreateProject(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
@@ -126,7 +126,7 @@ namespace CalcsGenerator.Windows
             p.Info = CommentInput.Text;
 
             App.PC.Projects.Add(p);
-            App.TrySaveChanges();
+            await App.TrySaveChanges();
 
             Console.WriteLine("Был создан проект: {0}. Его основной ключ:{1}", p.Name, p.Id);
             OpenProject(p.Id);

@@ -28,9 +28,10 @@ namespace CalcsGenerator.Controls
         Project currentproj;
         ObservableCollection<TabWithItems> Tabs = new ObservableCollection<TabWithItems>();
 
-        public bool SaveChanges()
+        public async  Task<bool> SaveChanges()
         {
-            if (App.TrySaveChanges())
+            var saveresult = await App.TrySaveChanges();
+            if (saveresult)
             {
                 foreach (var item in Tabs)
                 {

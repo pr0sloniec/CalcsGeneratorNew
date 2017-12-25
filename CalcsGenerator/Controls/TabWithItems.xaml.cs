@@ -33,7 +33,7 @@ namespace CalcsGenerator.Controls
 
         public Action<int> RemoveTab { get; set; }
 
-        public Func<bool> SaveChanges { get; set; }
+        public Func<Task<bool>> SaveChanges { get; set; }
 
         public bool IsChangesSaved {
             set
@@ -213,7 +213,7 @@ namespace CalcsGenerator.Controls
             SaveChanges?.Invoke();
         }
 
-        private void AddItemClick(object sender, MouseButtonEventArgs e)
+        private async void AddItemClick(object sender, MouseButtonEventArgs e)
         {
             foreach (var item in TabRecords)
             {
@@ -221,9 +221,9 @@ namespace CalcsGenerator.Controls
                 {
                     RecordGrid.CurrentItem = RecordGrid.Items.GetItemAt(RecordGrid.Items.Count - 1);
 
-                    bool? issaved = SaveChanges?.Invoke();
+                    var issaved = await SaveChanges?.Invoke();
 
-                    if (issaved==true)
+                    if (issaved)
                     {
                         break;
                     }

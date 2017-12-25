@@ -33,30 +33,34 @@ namespace CalcsGenerator
         }
 
         //Если сохранение на каждом шаге будут медленными, их можно будет выключить, если вызывать через метод
-        public static bool TrySaveChanges()
+        public static async Task<bool> TrySaveChanges()
         {
-            lock (lockobj)
+            var ret = await Task.Run(() =>
             {
-                try
+                lock (lockobj)
                 {
-                    projectsContext.SaveChanges();
-                    Console.WriteLine("Сохранение в {0}", DateTime.Now);
-                    return true;
-                }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
+                    Console.WriteLine("Начало сохранения в {0}", DateTime.Now);
+                    try
                     {
-                        Console.WriteLine("\n|Сохранение сущности в базу пропущено: {0}", e.Message);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("|----Свойство: \"{0}\", Предупреждение: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
-                        }
+                        projectsContext.SaveChanges();
+                        Console.WriteLine("Сохранение в {0}", DateTime.Now);
+                        return true;
                     }
-                    return false;
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("\n|Сохранение сущности в базу пропущено: {0}", e.Message);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("|----Свойство: \"{0}\", Предупреждение: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        return false;
+                    }
                 }
-                
-            }
+            });
+            return ret;
         }
 
         public static void AddItems()
