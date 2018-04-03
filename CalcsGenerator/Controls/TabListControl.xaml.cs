@@ -61,11 +61,13 @@ namespace CalcsGenerator.Controls
             {
                 if (Tabs[i].TabId == index)
                 {
+                    Tabs[i].PropertyChanged -= UpdateAllSumm;
                     Tabs.Remove(Tabs[i]);
                     currentproj.Tabs.Remove(currentproj.Tabs.Where(t=>t.Id==index).First());
                     await App.TrySaveChanges();
                 }
             }
+            UpdateAllSumm(null, null);
         }
 
         public TabListControl(int projid)
