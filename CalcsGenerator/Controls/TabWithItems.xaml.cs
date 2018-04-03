@@ -25,7 +25,7 @@ namespace CalcsGenerator.Controls
     /// <summary>
     /// Логика взаимодействия для ItemList.xaml
     /// </summary>
-    public partial class TabWithItems : UserControl
+    public partial class TabWithItems : UserControl, INotifyPropertyChanged
     {
 
         public int TabId { get; private set; } //Идентификатор текущей вкладки в базе данных
@@ -47,7 +47,7 @@ namespace CalcsGenerator.Controls
         }
 
         int count;
-        public int Count { get { return count; } private set { count = value; CountTextBox.Text = "Итого: " + count.ToString(); } }  //Счетчик итого
+        public int Count { get { return count; } private set { count = value; CountTextBox.Text = "Итого: " + count.ToString(); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count")); } }  //Счетчик итого
 
         Project currentproj;
         Tab currenttab;
@@ -56,6 +56,8 @@ namespace CalcsGenerator.Controls
 
         int workcharge = 0;
         int partscharge = 0;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public TabWithItems(int tabid, int projectid)
         {

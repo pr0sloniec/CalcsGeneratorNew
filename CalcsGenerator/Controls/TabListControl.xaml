@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Height="30">
             <Grid.ColumnDefinitions>
@@ -58,5 +59,6 @@
                 </ListBox>
             </Grid>
         </ScrollViewer>
+        <Label Grid.Row="2" Content="Итоговая сумма: 0" x:Name="AllSumLabel" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
     </Grid>
 </UserControl>

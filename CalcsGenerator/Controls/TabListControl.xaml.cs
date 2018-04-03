@@ -28,6 +28,16 @@ namespace CalcsGenerator.Controls
         Project currentproj;
         ObservableCollection<TabWithItems> Tabs = new ObservableCollection<TabWithItems>();
 
+        private void UpdateAllSumm(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            int allsum = 0;
+            foreach (var item in Tabs)
+            {
+                allsum += item.Count;
+            }
+            AllSumLabel.Content = "Итоговая сумма: " + allsum;
+        }
+
         public async  Task<bool> SaveChanges()
         {
             var saveresult = await App.TrySaveChanges();
@@ -36,7 +46,7 @@ namespace CalcsGenerator.Controls
                 foreach (var item in Tabs)
                 {
                     item.IsChangesSaved = true;
-                }
+                }                
                 return true;
             }
             else
@@ -65,23 +75,27 @@ namespace CalcsGenerator.Controls
 
             InitializeComponent();
             UpdateTabs();
-            
+            UpdateAllSumm(null,null);
+
             TabList.ItemsSource = Tabs;
             TitleLabel.Content = currentproj.Name;
         }
 
         private void UpdateTabs()
         {
+            foreach (var tab in Tabs)
+            {
+                tab.PropertyChanged -= UpdateAllSumm;
+            }
             Tabs.Clear();
             foreach (var tab in currentproj.Tabs)
             {
                 var w = new TabWithItems(tab.Id, ProjectId);
                 w.RemoveTab = RemoveTab;
                 w.SaveChanges = SaveChanges;
+                w.PropertyChanged += UpdateAllSumm;
                 Tabs.Add(w);
             }
-
-
         }
 
         private async void AddTab(object sender, MouseButtonEventArgs e)
